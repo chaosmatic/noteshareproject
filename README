@@ -1,4 +1,4 @@
-#NOTESHARE
+NOTESHARE
 
 Noteshare will be a platform through which users can share classroom notes over the web.
 
@@ -6,7 +6,11 @@ This software will be licensed under GPL 3.0. Read LICENSE for details.
 
 Chaosmatic and Tangrs are the creators of noteshare, and can be contacted on Github.
 
-TODO (as of 29/2/12):
-Install required software onto Dev server
-Implement everything
-Plan further developments
+TODO (as of 4/3/12):
+Design interface
+Write uploader script
+Include security and validation in uploader script
+code to change uploaded text into html (ie adds <p>, <b>, <br>, lists, images)
+write page to view uploaded notes
+code to sort uploaded notes by subject/topic/year level/votes
+ability to up and down vote
