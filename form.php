@@ -45,10 +45,10 @@ Author:<input type="text" size="12" maxlength="18" name="author"><br />
 </form>
 <? 
 } else {
-echo "$topic";
-echo "$subject";
-echo "$YearLevel";
-echo "$author";
+echo "htmlspecialchars($topic)";
+echo "htmlspecialchars($subject)";
+echo "htmlspecialchars($YearLevel)";
+echo "htmlspecialchars($author)";
 }
 ?>
 </div>
