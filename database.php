@@ -13,19 +13,8 @@ class databaseaccess {
      		}
         	catch (PDOException $Exception) {
            		throw new Exception("DB failed to connect ".$Exception->getMessage());
-     		}
-    	}
-
-	public function displayposts($lbound,$PostPerPage) {
-		if ($this->db === null) throw new Exception("DB is not connected");
-		$query = "SELECT * FROM files ORDER BY `id` DESC LIMIT :lbound, :PostPerPage";
-		$statement = $this->db->prepare($query);
-		$statement->bindValue(':lbound', $lbound, PDO::PARAM_INT);
-		$statement->bindValue(':PostPerPage', $PostPerPage, PDO::PARAM_INT);
-		$statement->execute();
-		$this->result = $statement->fetchAll(PDO::FETCH_ASSOC);
-		//var_dump($this->result); //debugging only
-	}
+       		}
+    }
 
 	public function displaybyid($id) {
 		if ($this->db === null) throw new Exception("DB is not connected");
@@ -34,21 +23,35 @@ class databaseaccess {
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 		$this->result = $statement->fetch(PDO::FETCH_ASSOC);
+		var_dump($this->result); //debugging only
 	}
 
-
-	public function write($topic,$subject,$author,$path){
+	public function write($title,$topic,$subject,$author,$path){
 		if ($this->db === null) throw new Exception("DB is not connected");
 
-		$query = "INSERT INTO `noteshareproject`.`files` (`topic` ,`subject` ,`author` ,`path`) VALUES (:topic, :subject, :author, :path);";
+		$query = "INSERT INTO `noteshareproject`.`files` (`title` ,`topic` ,`subject` ,`author` ,`path`) VALUES (:title, :topic, :subject, :author, :fpath);";
 		$statement = $this->db->prepare($query);
+		$statement->bindValue(':title', $title, PDO::PARAM_STR);
 		$statement->bindValue(':topic', $topic, PDO::PARAM_STR);
 		$statement->bindValue(':subject', $subject, PDO::PARAM_STR);
 		$statement->bindValue(':author', $author, PDO::PARAM_STR);
-		$statement->bindValue(':path', $path, PDO::PARAM_STR);
+		$statement->bindValue(':fpath', $path, PDO::PARAM_STR);
 		$statement->execute();
 	}
-	//Needs to be re-written to suit noteshareproject
+
+	public function displayfiles($lbound,$FilesPerPage) {
+		if ($this->db === null) throw new Exception("DB is not connected");
+		$query = "SELECT * FROM files ORDER BY id DESC LIMIT :lbound , :FilesPerPage";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':lbound', $lbound, PDO::PARAM_INT);
+		$statement->bindValue(':FilesPerPage', $FilesPerPage, PDO::PARAM_INT);
+		$statement->execute();
+		$this->result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		//var_dump($this->result); //debugging only
+	}
+
+	//NEEDS TO BE RE-WRITTEN TO SUIT NOTESHAREPROJECT
+	/*
 	public function delete($id){ 
 		if ($this->db === null) throw new Exception("DB is not connected");
 
@@ -96,8 +99,10 @@ class databaseaccess {
 		$statement->execute();
 		$tempcount = $statement->fetch(PDO::FETCH_ASSOC);
 		$this->amount = $tempcount['COUNT(*)'];
-
 	}
+*/
+
+	
 }
 
 ?>
