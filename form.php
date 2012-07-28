@@ -3,7 +3,7 @@ require_once('head.php');
 ?>
 Upload form.<p>
 <form method="post" action="submit.php" enctype="multipart/form-data"> 
-<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 Topic:<input type="text" size="12" maxlength="12" name="topic"><br />
 Select a subject:<br />
 <select name="subject">
