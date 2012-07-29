@@ -39,16 +39,18 @@ class databaseaccess {
 		$statement->execute();
 	}
 
-	public function displayfiles($lbound,$FilesPerPage) {
+	public function displayfiles($subject,$lbound,$FilesPerPage) {
 		if ($this->db === null) throw new Exception("DB is not connected");
-		$query = "SELECT * FROM files ORDER BY id DESC LIMIT :lbound , :FilesPerPage";
+		$query = "SELECT * FROM files WHERE subject = :subject ORDER BY id DESC LIMIT :lbound , :FilesPerPage";
 		$statement = $this->db->prepare($query);
 		$statement->bindValue(':lbound', $lbound, PDO::PARAM_INT);
 		$statement->bindValue(':FilesPerPage', $FilesPerPage, PDO::PARAM_INT);
+		$statement->bindValue(':subject', $subject, PDO::PARAM_STR);
 		$statement->execute();
 		$this->result = $statement->fetchAll(PDO::FETCH_ASSOC);
 		//var_dump($this->result); //debugging only
 	}
+
 
 	//NEEDS TO BE RE-WRITTEN TO SUIT NOTESHAREPROJECT
 	/*

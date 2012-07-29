@@ -1,11 +1,11 @@
 <?php
-require_once('head.php');
+require_once('head.php'); // Need to make a page that lists subjects 
 require_once ('database.php');
-$pageid = $_GET["pageid"];
+$subject = $_GET["subject"];
 $FilesPerPage = 50;
 $lbound = $PostPerPage*$pageid;
 $dbh = new databaseaccess;
-$dbh->displayfiles($lbound,$FilesPerPage);
+$dbh->displayfiles($subject,$lbound,$FilesPerPage);
 
 if ($dbh->result != null){
 	foreach ($dbh->result as $v1) {
@@ -30,7 +30,7 @@ if ($dbh->result != null){
 	}
 }else{
 	echo "nothing to display<bR>";
-	$dbh->displaybyid("1");
+	//$dbh->displaybyid("1");//debugonly
 }
 
 require_once('foot.php');

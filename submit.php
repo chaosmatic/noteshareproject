@@ -1,15 +1,16 @@
 <?php
-//TODO: submit values to db on upload
+//TODO: SUBMIT VALUES TO DB ON UPLOAD
 require_once('head.php');
 require_once ('database.php');
 
-$subject = $_POST["subject"];
+$subject = $_POST["subject"]; //NEED TO SANITIZE AND VALIDATE THESE GUYS
 $topic = $_POST["topic"];
 $yearlevel = $_POST["YearLevel"];
 $author = $_POST["author"];
 $filename = $_FILES['datafile']['name'];
 $ext = pathinfo($_FILES['datafile']['name'], PATHINFO_EXTENSION);
 
+//INSERT CHECK FOR EXTENSION HERE
 
 $dbh = new databaseaccess;
 $uploaddir = '/var/uploads/';
