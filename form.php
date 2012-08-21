@@ -1,7 +1,6 @@
 <?php
 require_once('head.php');
 ?>
-Upload form.<p>
 <form method="post" action="submit.php" enctype="multipart/form-data"> 
 <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 Topic:<input type="text" size="12" maxlength="12" name="topic"><br />
@@ -26,6 +25,7 @@ Year 12:<input type="radio" value="12" name="YearLevel"><br />-->
 Author:<input type="text" size="12" maxlength="18" name="author"><br />
 Please specify a file, or a set of files:<br>
 <input type="file" name="datafile" size="40"><br>
+By submitting this file you acknowledge that Milfordsworld.com reserves the right to remove any file it deems unsuitable or offensive. You also acknowledge that you alone are the sole copyright holder for the file and submit it under the <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>. 
   <input type="submit" value="submit" name="submit">
 </form>
 <?
