@@ -1,8 +1,9 @@
 <?php
-require_once('head.php'); // Need to make a page that lists subjects 
+require_once('head.php'); 
 require_once ('database.php');
 $subject = $_GET["subject"];
 if ($subject != null){
+	echo "<a href='index.php'>Home</a> <a href='form.php'>Submit</a>";
 	$FilesPerPage = 50;
 	$lbound = $PostPerPage*$pageid;
 	$dbh = new databaseaccess;
@@ -30,12 +31,12 @@ if ($subject != null){
 			echo "<hr>";
 		}
 	}else{
-		echo "nothing to display<bR>";
+		echo "<br>nothing to display<bR>";
 		//$dbh->displaybyid("1");//debugonly
 	}
 }else{
 	echo "Disclaimer: Neither Milfordsworld.com nor any person or group associated with Milfordsworld.com
-	 	endorses any content uploaded by users. No warranty or affirmation of quality is given."
+	 	endorses any content uploaded by users. No warranty or affirmation of quality is given.<br>";
 	echo "<a href='index.php?subject=Math'>All Math uploads</a><br>";
 	echo "<a href='index.php?subject=Physics'>All Physics uploads</a><br>";
 	echo "<a href='index.php?subject=Chemistry'>All Chemistry uploads</a><br>";
