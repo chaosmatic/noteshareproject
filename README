@@ -8,7 +8,6 @@ Chaosmatic and Tangrs are the creators of noteshare, and can be contacted on Git
 
 TODO (as of 21/8/12):
 Design interface
-Complete uploader script so that it interfaces with db backend
-Include security and validation in uploader script
+Improve upon security and validation in uploader script
 code to change uploaded text into html (ie adds <p>, <b>, <br>, lists, images)
 ability to up and down vote
