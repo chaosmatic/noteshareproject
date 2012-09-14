@@ -26,7 +26,18 @@ class databaseaccess {
 		var_dump($this->result); //debugging only
 	}
 
-	public function write($title,$topic,$subject,$author,$path){
+	public function writetable($title,$id){
+		if ($this->db === null) throw new Exception("DB is not connected");
+
+		$query = "CREATE TABLE :title (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), username VARCHAR(20)) ENGINE=myISAM;";
+		$statement = $this->db->prepare($query);
+		$title = $title . $id;
+		$title = (string) $title;
+		$statement->bindValue(':title', $title, PDO::PARAM_STR);
+		$statement->execute();
+	}
+
+	public function write($title,$topic,$subject,$author,$path) {
 		if ($this->db === null) throw new Exception("DB is not connected");
 
 		$query = "INSERT INTO `noteshareproject`.`files` (`title` ,`topic` ,`subject` ,`author` ,`path`) VALUES (:title, :topic, :subject, :author, :fpath);";
@@ -37,7 +48,10 @@ class databaseaccess {
 		$statement->bindValue(':author', $author, PDO::PARAM_STR);
 		$statement->bindValue(':fpath', $path, PDO::PARAM_STR);
 		$statement->execute();
+		$this->writetable($title,$this->db->lastInsertId());
 	}
+
+
 
 	public function displayfiles($subject,$lbound,$FilesPerPage) {
 		if ($this->db === null) throw new Exception("DB is not connected");
@@ -50,10 +64,36 @@ class databaseaccess {
 		$this->result = $statement->fetchAll(PDO::FETCH_ASSOC);
 		//var_dump($this->result); //debugging only
 	}
+	//CRYPTO RELATED 
+	public function getuser($username){
+		if ($this->db === null) throw new Exception("DB is not connected");
+		$query = "SELECT * FROM users WHERE username = :username;";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':username', $username, PDO::PARAM_STR);
+		$statement->execute();
+		$temp = $statement->fetch(PDO::FETCH_ASSOC);
+		$this->hash = $temp['hash'];
+	}
+	
+	public function writeuser($username,$hash){
+		if ($this->db  === null) throw new Exception("DB is not connected");
 
+		$query = "INSERT INTO `users`(`username` ,`hash`) VALUES (:username, :hash);";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':username', $username, PDO::PARAM_STR);
+		$statement->bindValue(':hash', $hash, PDO::PARAM_STR);
+		$statement->execute();
+	
+	}
 
+}
+	
 	//NEEDS TO BE RE-WRITTEN TO SUIT NOTESHAREPROJECT
 	/*
+
+	public function vote($id){
+	
+	}
 	public function delete($id){ 
 		if ($this->db === null) throw new Exception("DB is not connected");
 
@@ -74,25 +114,6 @@ class databaseaccess {
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 	}
-	//CRYPTO RELATED 
-	public function gethash(){
-		if ($this->db === null) throw new Exception("DB is not connected");
-		$query = "SELECT * FROM crypto ORDER BY `id` DESC LIMIT 1";
-		$statement = $this->db->prepare($query);
-		$statement->execute();
-		$temp = $statement->fetch(PDO::FETCH_ASSOC);
-		$this->hash = $temp['hash'];
-	}
-	
-	public function writehash($hash){
-		if ($this->db  === null) throw new Exception("DB is not connected");
-
-		$query = "UPDATE `Blogging-Platform`.`crypto` SET `hash` = :hash WHERE `crypto`.`id` = 1";
-		$statement = $this->db->prepare($query);
-		$statement->bindValue(':hash', $hash, PDO::PARAM_STR);
-		$statement->execute();
-	}
-
 	public function count(){
 		if ($this->db === null) throw new Exception("DB is not connected");
 
@@ -105,6 +126,5 @@ class databaseaccess {
 */
 
 	
-}
 
 ?>

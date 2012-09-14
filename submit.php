@@ -1,21 +1,21 @@
 <?php
-//TODO: SUBMIT VALUES TO DB ON UPLOAD
+session_start();
 require_once('head.php');
 require_once ('database.php');
 echo "<a href='index.php'>Home</a>";
 //SANITIZATION
-$subject = filter_var($_POST["subject"], FILTER_SANITIZE_STRING);//NEED TO SANITIZE AND VALIDATE THESE GUYS
+$subject = filter_var($_POST["subject"], FILTER_SANITIZE_STRING);
 $title = filter_var($_POST["title"], FILTER_SANITIZE_STRING);
 $topic = filter_var($_POST["topic"], FILTER_SANITIZE_STRING);
 $yearlevel = filter_var($_POST["YearLevel"], FILTER_SANITIZE_STRING);
-$author = filter_var($_POST["author"], FILTER_SANITIZE_STRING);
+$author = $_SESSION['username'];
 $filename = $_FILES['datafile']['name']; //debugging only
 $ext = pathinfo($_FILES['datafile']['name'], PATHINFO_EXTENSION);
 $ext = filter_var($ext, FILTER_SANITIZE_STRING);
 echo $ext;
 //VALIDATION
 $allowedsubject = array("Math","Physics","Chemistry","Biology","English","Literature","Spesh");
-if (in_array($subject, $allowedext)){
+if (in_array($subject, $allowedsubject)){
 	$validsubject = True;
 }
 $allowedext = array("doc","docx","ppt","pptx","xls","xlsx","txt","pdf");
@@ -31,7 +31,7 @@ $dbh = new databaseaccess;
 $uploaddir = '/var/uploads/';
 $filename = hash_file('sha256',($_FILES['datafile']['tmp_name'])) .".".$ext;
 $uploadfile = $uploaddir . $filename;
-if ($allowedext && $allowedsubject && $validtta && null != $subject && strlen($topic)>0 && strlen($author)>0 && strlen($filename)>0){
+if ($validext && $validsubject && $validtta && strlen($topic)>0 && strlen($author)>0 && strlen($filename)>0){
 	if (move_uploaded_file($_FILES['datafile']['tmp_name'], $uploadfile)) {
 			echo "File is valid, and was successfully uploaded.\n";
 			echo "moved "; //DEBUGGING
@@ -49,6 +49,15 @@ if ($allowedext && $allowedsubject && $validtta && null != $subject && strlen($t
 		}
 }else{
 	echo "Form is not filled out properly";
+	/*var_dump($validext);
+	var_dump($validsubject);
+	var_dump($validtta);
+	var_dump(strlen($topic)>0);
+	var_dump(strlen($author)>0);
+	var_dump($author);
+	var_dump(strlen($filename)>0);*/
+				
+
 }	
 require_once('foot.php');
 ?>

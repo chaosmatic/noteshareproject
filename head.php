@@ -12,4 +12,9 @@ echo "<font size='70'> <font color='#10B010'>NoteShare</font></font>"; //title a
 echo "</center>";
 	echo "</div>";
    echo "<div id=content>";
+   echo "<a href='account.php'>Login or make user</a> <a href='index.php'>Browse entries</a> <a href='form.php'>Submit something good</a>";
+	if($_SESSION['check']){
+		echo " <a href='logout.php'>Logout</a>";
+	}
+	echo "<br>";   	  
 ?>

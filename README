@@ -6,8 +6,10 @@ This software will be licensed under GPL 3.0. Read LICENSE for details.
 
 Chaosmatic and Tangrs are the creators of noteshare, and can be contacted on Github.
 
-TODO (as of 21/8/12):
+TODO (as of 14/9/12):
 Design interface
-Improve upon security and validation in uploader script
+Improve upon validation, specifically: Implement password policy, check uploaded file is not the same as another, and a few others =P
 code to change uploaded text into html (ie adds <p>, <b>, <br>, lists, images)
-ability to up and down vote
+ability to up and down vote (work in progress)
+	need to get table creation working, then implement actual voting mechanism
+Some form of user validation technique, probably reCAPCHA, although email validation is still cool and a lot of work.
