@@ -28,13 +28,16 @@ class databaseaccess {
 
 	public function writetable($title,$id){
 		if ($this->db === null) throw new Exception("DB is not connected");
-
-		$query = "CREATE TABLE :title (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), username VARCHAR(20)) ENGINE=myISAM;";
-		$statement = $this->db->prepare($query);
-		$title = $title . $id;
-		$title = (string) $title;
-		$statement->bindValue(':title', $title, PDO::PARAM_STR);
-		$statement->execute();
+		//query works with `:title` however keeps the commas. Gotta find out what is wrong.
+			$query = "CREATE TABLE noteshareproject.:title (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), username VARCHAR(20)) ENGINE=myISAM;";
+			$statement = $this->db->prepare($query);
+			$title = $title . $id;
+			$title = (string) $title;
+			$statement->bindValue(':title', $title, PDO::PARAM_STR);
+			$statement->execute();
+   			print_r($statement->errorInfo());
+   			echo $title;
+			
 	}
 
 	public function write($title,$topic,$subject,$author,$path) {

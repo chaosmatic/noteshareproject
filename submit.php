@@ -49,13 +49,13 @@ if ($validext && $validsubject && $validtta && strlen($topic)>0 && strlen($autho
 		}
 }else{
 	echo "Form is not filled out properly";
-	/*var_dump($validext);
+	/**/var_dump($validext);
 	var_dump($validsubject);
 	var_dump($validtta);
 	var_dump(strlen($topic)>0);
 	var_dump(strlen($author)>0);
 	var_dump($author);
-	var_dump(strlen($filename)>0);*/
+	var_dump(strlen($filename)>0);/**/
 				
 
 }	
