@@ -3,12 +3,16 @@ session_start();
 require_once('head.php'); 
 require_once ('database.php');
 $subject = $_GET["subject"];
+
 if ($subject != null){
 	echo "<a href='index.php'>Home</a> <a href='form.php'>Submit</a>";
+	$pageid = $_GET["pageid"];
 	$FilesPerPage = 50;
-	$lbound = $PostPerPage*$pageid;
+	$lbound = $FilesPerPage*$pageid;
 	$dbh = new databaseaccess;
 	$dbh->displayfiles($subject,$lbound,$FilesPerPage);
+	$dbh->count();
+	$totalpages = ceil($dbh->amount/$FilesPerPage);
 
 	if ($dbh->result != null){
 		foreach ($dbh->result as $v1) {
@@ -18,19 +22,46 @@ if ($subject != null){
 				}elseif($value == "path"){
 					echo "<a href='readfile.php?file=";
 					echo $v2;
-					echo "'>Download</a>";
+					echo "'>Download</a><br>";
 				}elseif($value == "topic"){
 					echo " Topic: " . $v2."<br>";
 				}elseif($value == "subject"){
 					echo " subject: " . $v2."<br>";
 				}elseif($value == "author"){
 					echo " author: " . $v2."<br>";
+				}elseif($value == "id"){
+					echo "<a href='vote.php?file=".$v2."'>UPVOTE</a>";
+				}elseif($value == "votes"){
+					echo "Votes: ".$v2."<br>";
 				}else{
 					//echo " ".$v2."<br>"." ";
 				}
 			}
 			echo "<hr>";
 		}
+		if($pageid == 0){//if first page
+			if($totalpages>1){//if filled
+				?>
+				<form method="get" action="<?php echo $PHP_SELF; ?>">
+				<button name="pageid" value="<?php echo ($pageid + 1);?>" type="submit">Older Posts</button>
+				</form>
+				<?php	
+			}
+		}elseif($totalpages>$pageid+1){//if middle page
+			?>
+			<form method="get" action="<?php echo $PHP_SELF; ?>">
+			<button name="pageid" value="<?php echo ($pageid + 1);?>" type="submit">Older Posts</button>
+			<button name="pageid" value="<?php echo ($pageid - 1);?>" type="submit">Newer Posts</button>
+			</form>
+			<?php
+		}elseif($totalpages==$pageid+1){//if last page
+			?>
+			<form method="get" action="<?php echo $PHP_SELF; ?>">
+			<button name="pageid" value="<?php echo ($pageid - 1);?>" type="submit">Newer Posts</button>
+			</form>
+			<?php
+			}
+			
 	}else{
 		echo "<br>nothing to display<bR>";
 		//$dbh->displaybyid("1");//debugonly

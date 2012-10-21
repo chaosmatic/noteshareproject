@@ -1,9 +1,9 @@
 <?php
 class databaseaccess {
 
-	public $hostname = 'localhost';
-	public $username = 'root';
-	public $password = 'root';
+	private $hostname = 'localhost';
+	private $username = 'root';
+	private $password = 'root';
 	private $db = null;
 	public $rows;
 
@@ -26,20 +26,6 @@ class databaseaccess {
 		var_dump($this->result); //debugging only
 	}
 
-	public function writetable($title,$id){
-		if ($this->db === null) throw new Exception("DB is not connected");
-		//query works with `:title` however keeps the commas. Gotta find out what is wrong.
-			$query = "CREATE TABLE noteshareproject.:title (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id), username VARCHAR(20)) ENGINE=myISAM;";
-			$statement = $this->db->prepare($query);
-			$title = $title . $id;
-			$title = (string) $title;
-			$statement->bindValue(':title', $title, PDO::PARAM_STR);
-			$statement->execute();
-   			print_r($statement->errorInfo());
-   			echo $title;
-			
-	}
-
 	public function write($title,$topic,$subject,$author,$path) {
 		if ($this->db === null) throw new Exception("DB is not connected");
 
@@ -51,10 +37,41 @@ class databaseaccess {
 		$statement->bindValue(':author', $author, PDO::PARAM_STR);
 		$statement->bindValue(':fpath', $path, PDO::PARAM_STR);
 		$statement->execute();
-		$this->writetable($title,$this->db->lastInsertId());
 	}
 
+	public function vote($user,$file)  {
+		if ($this->db === null) throw new Exception("DB is not connected");
 
+		$query = "INSERT INTO `noteshareproject`.`votes` (`file_id` ,`user_id`) VALUES (:file, :user);";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':file', $file, PDO::PARAM_INT);
+		$statement->bindValue(':user', $user, PDO::PARAM_STR);
+		$statement->execute();
+
+		$query = "UPDATE files SET votes = votes + 1 WHERE id = :file;";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':file', $file, PDO::PARAM_INT);
+		$statement->execute();
+	}
+
+	public function checkvote($user,$file) {
+		if ($this->db === null) throw new Exception("DB is not connected");
+		$query = "SELECT * FROM votes WHERE file_id = :file AND user_id = :user";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(':file', $file, PDO::PARAM_INT);
+		$statement->bindValue(':user', $user, PDO::PARAM_STR);
+		$statement->execute();
+		$this->result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		if ($this->result!=null){
+			#print_r($this->result);
+			return true;
+
+		}else{
+			#print_r($this->result);
+			return false;
+			
+		}
+	}
 
 	public function displayfiles($subject,$lbound,$FilesPerPage) {
 		if ($this->db === null) throw new Exception("DB is not connected");
@@ -89,6 +106,16 @@ class databaseaccess {
 	
 	}
 
+		public function count(){
+		if ($this->db === null) throw new Exception("DB is not connected");
+
+		$query = "SELECT COUNT(*) FROM `noteshareproject`.`files`";
+		$statement = $this->db->prepare($query);
+		$statement->execute();
+		$tempcount = $statement->fetch(PDO::FETCH_ASSOC);
+		$this->amount = $tempcount['COUNT(*)'];
+	}
+
 }
 	
 	//NEEDS TO BE RE-WRITTEN TO SUIT NOTESHAREPROJECT
@@ -117,15 +144,7 @@ class databaseaccess {
 		$statement->bindValue(':id', $id, PDO::PARAM_INT);
 		$statement->execute();
 	}
-	public function count(){
-		if ($this->db === null) throw new Exception("DB is not connected");
 
-		$query = "SELECT COUNT(*) FROM `Blogging-Platform`.`posts`";
-		$statement = $this->db->prepare($query);
-		$statement->execute();
-		$tempcount = $statement->fetch(PDO::FETCH_ASSOC);
-		$this->amount = $tempcount['COUNT(*)'];
-	}
 */
 
 	

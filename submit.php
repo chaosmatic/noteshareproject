@@ -33,12 +33,12 @@ $filename = hash_file('sha256',($_FILES['datafile']['tmp_name'])) .".".$ext;
 $uploadfile = $uploaddir . $filename;
 if ($validext && $validsubject && $validtta && strlen($topic)>0 && strlen($author)>0 && strlen($filename)>0){
 	if (move_uploaded_file($_FILES['datafile']['tmp_name'], $uploadfile)) {
-			echo "File is valid, and was successfully uploaded.\n";
+			/*echo "File is valid, and was successfully uploaded.\n";
 			echo "moved "; //DEBUGGING
 			echo $_FILES['datafile']['tmp_name'];
 			echo " to ";
 			echo $uploadfile;
-			echo " ".$filename;
+			echo " ".$filename;*/
 			$dbh->write($title,$topic,$subject,$author,$filename);
 	}else {
 			echo "Possible file upload attack!\n";
