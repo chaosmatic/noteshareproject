@@ -8,6 +8,6 @@ Chaosmatic and Tangrs are the creators of noteshare, and can be contacted on Git
 
 TODO (as of 21/10/12):
 Design interface
-Improve upon validation, specifically: Implement password policy, check uploaded file is not the same as another, and a few others =P
-code to change uploaded text into html (ie adds <p>, <b>, <br>, lists, images)
-Some form of user validation technique, probably reCAPCHA, although email validation is still cool and a lot of work.
+Implement check to see that uploaded file is the same as another
+Strenghten password policy
+Implement some form of user validation technique, probably reCAPCHA, although email validation is still cool and a lot of work.

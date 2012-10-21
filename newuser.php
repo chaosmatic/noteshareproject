@@ -13,9 +13,11 @@ $dbh->getuser($username);
 if($password2!=$password1){
 	echo "Passwords do not match.<br>";
 }elseif($dbh->hash!=null){
-	echo "User already exiests<br>";
+	echo "User already exiests.<br>";
 }elseif($username!=$_POST["username"] && $userlen < 1 && $userlen > 20){
-	echo "username is invalid<br>";
+	echo "Username is invalid.<br>";
+}elseif(len($password1)<8){
+	echo "Password is too short.<br>";
 }else{
 	$hash = $hasher->HashPassword($password1);
 	if (strlen($hash) < 20){

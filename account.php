@@ -16,6 +16,7 @@ Password:<input type="password" size="20" maxlength="20" name="password1"><br />
 Re-enter Password:<input type="password" size="20" maxlength="20" name="password2"><br />
 <input type="submit" value="Make User" name="submit">
 </form>
+Note: Passwords must be atleast 8 characters.
 <!--Add reCAPCHA-->
 <?php
 require_once('foot.php');
