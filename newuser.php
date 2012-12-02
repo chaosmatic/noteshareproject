@@ -16,7 +16,7 @@ if($password2!=$password1){
 	echo "User already exiests.<br>";
 }elseif($username!=$_POST["username"] && $userlen < 1 && $userlen > 20){
 	echo "Username is invalid.<br>";
-}elseif(len($password1)<8){
+}elseif(strlen($password1)<8){
 	echo "Password is too short.<br>";
 }else{
 	$hash = $hasher->HashPassword($password1);
